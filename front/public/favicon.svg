@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .ink { stroke: #0F172A; }
+    .flag { fill: #4F46E5; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #EAEBF0; }
+      .flag { fill: #8B84F0; }
+    }
+  </style>
+  <path class="ink" d="M6 26 C9 20 12 16 15 12" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+  <path class="ink" d="M16 27 C16 21 16 16 16 12" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path class="ink" d="M26 26 C23 20 20 16 17 12" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="1 4"/>
+  <line class="ink" x1="16" y1="12" x2="16" y2="5" stroke-width="3.2" stroke-linecap="round"/>
+  <path class="flag" d="M16 5 L25 8.5 L16 12 Z"/>
+</svg>
