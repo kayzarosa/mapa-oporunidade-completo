@@ -1,18 +1,22 @@
-import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { prisma } from "@/lib/prisma";
 import { AppError } from "@/errors/app-error";
+import { processRoutes } from "@/routes/process-routes";
+import { ZodError } from "zod";
+import { env } from "@/env";
 
 const app = Fastify();
 
-const port = Number(process.env.PORT ?? "3333");
+const port = Number(env.PORT);
 
 app.register(cors, { origin: "*" });
 
 app.get("/health", async () => {
   return { status: "ok", message: "Hello World" };
 });
+
+app.register(processRoutes);
 
 async function start() {
   try {
@@ -28,7 +32,13 @@ async function start() {
   });
 }
 
-app.setErrorHandler(( error, _request, reply ) => {
+app.setErrorHandler((error, _request, reply) => {
+  if (error instanceof ZodError) {
+    return reply
+      .status(400)
+      .send({ message: "Validation error", issues: error.issues });
+  }
+
   if (error instanceof AppError) {
     return reply.status(error.statusCode).send({ message: error.message });
   }
