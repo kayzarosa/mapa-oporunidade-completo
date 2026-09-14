@@ -1,7 +1,8 @@
 import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { prisma } from "./lib/prisma.js";
+import { prisma } from "@/lib/prisma";
+import { AppError } from "@/errors/app-error";
 
 const app = Fastify();
 
@@ -26,5 +27,14 @@ async function start() {
     console.log(`🚀 Server running on http://localhost:${port}`);
   });
 }
+
+app.setErrorHandler(( error, _request, reply ) => {
+  if (error instanceof AppError) {
+    return reply.status(error.statusCode).send({ message: error.message });
+  }
+
+  console.error(error);
+  return reply.status(500).send({ message: "Internal server error" });
+});
 
 start();

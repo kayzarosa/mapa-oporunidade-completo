@@ -35,5 +35,5 @@ model Stage {
   updatedAt    DateTime  @updatedAt
 
   processId String
-  process   Process @relation(fields: [processId], references: [id])
+  process   Process @relation(fields: [processId], references: [id], onDelete: Cascade)
 }
