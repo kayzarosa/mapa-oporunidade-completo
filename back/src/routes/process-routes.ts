@@ -1,25 +1,25 @@
+import { type CreateProcessBody } from "@/controllers/process-create-controller";
+import { type ListProcessQuery } from "@/controllers/process-list-controller";
 import {
-  CreateProcessController,
-  type CreateProcessBody,
-} from "@/controllers/process-create-controller";
-import {
-  ListProcessController,
-  type ListProcessQuery,
-} from "@/controllers/process-list-controller";
+  type ProcessIdParams,
+  type UpdateProcessBody,
+} from "@/controllers/process-update-controller";
+import { makeProcessControllers } from "@/factories/process-factory";
 import { validate } from "@/middlewares/validate-middleware";
-import { PrismaProcessModel } from "@/models/process-model";
 import { processCreateSchema } from "@/schemas/process-create-schema";
+import { processIdParamsSchema } from "@/schemas/process-id-params-schema";
 import { processListSchema } from "@/schemas/process-list-schema";
-import { CreateProcessService } from "@/services/process-create-service";
-import { ListProcessService } from "@/services/process-list-service";
+import { processUpdateSchema } from "@/schemas/process-update-schema";
 import type { FastifyInstance } from "fastify";
 
 export async function processRoutes(app: FastifyInstance) {
-  const processRepository = new PrismaProcessModel();
-
-  const createProcessController = new CreateProcessController(
-    new CreateProcessService(processRepository),
-  );
+  const {
+    createProcessController,
+    listProcessController,
+    updateProcessController,
+    deleteProcessController,
+    historyProcessController,
+  } = makeProcessControllers();
 
   app.post<{ Body: CreateProcessBody }>(
     "/processes",
@@ -27,13 +27,40 @@ export async function processRoutes(app: FastifyInstance) {
     (request, replay) => createProcessController.handle(request, replay),
   );
 
-  const listProcessController = new ListProcessController(
-    new ListProcessService(processRepository),
-  );
-
   app.get<{ Querystring: ListProcessQuery }>(
     "/processes",
     { preHandler: validate({ querystring: processListSchema }) },
     (request, replay) => listProcessController.handle(request, replay),
+  );
+
+  app.put<{ Params: ProcessIdParams; Body: UpdateProcessBody }>(
+    "/processes/:id",
+    {
+      preHandler: validate({
+        params: processIdParamsSchema,
+        body: processUpdateSchema,
+      }),
+    },
+    (request, replay) => updateProcessController.handle(request, replay),
+  );
+
+  app.delete<{ Params: ProcessIdParams }>(
+    "/processes/:id",
+    {
+      preHandler: validate({
+        params: processIdParamsSchema,
+      }),
+    },
+    (request, replay) => deleteProcessController.handle(request, replay),
+  );
+
+  app.get<{ Params: ProcessIdParams }>(
+    "/processes/:id",
+    {
+      preHandler: validate({
+        params: processIdParamsSchema,
+      }),
+    },
+    (request, replay) => historyProcessController.handle(request, replay),
   );
 }

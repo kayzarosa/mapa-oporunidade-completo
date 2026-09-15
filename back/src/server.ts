@@ -5,6 +5,7 @@ import { AppError } from "@/errors/app-error";
 import { processRoutes } from "@/routes/process-routes";
 import { ZodError } from "zod";
 import { env } from "@/env";
+import { error } from "console";
 
 const app = Fastify();
 
@@ -27,7 +28,12 @@ async function start() {
     process.exit(1);
   }
 
-  app.listen({ port: port }, () => {
+  app.listen({ port: port }, (error) => {
+    if (error) {
+      console.error("❌ Failed to start server:", error.message);
+      process.exit(1);
+    }
+
     console.log(`🚀 Server running on http://localhost:${port}`);
   });
 }
