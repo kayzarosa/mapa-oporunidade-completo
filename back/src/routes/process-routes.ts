@@ -1,13 +1,12 @@
 import { type CreateProcessBody } from "@/controllers/process-create-controller";
 import { type ListProcessQuery } from "@/controllers/process-list-controller";
 import {
-  type ProcessIdParams,
   type UpdateProcessBody,
 } from "@/controllers/process-update-controller";
 import { makeProcessControllers } from "@/factories/process-factory";
 import { validate } from "@/middlewares/validate-middleware";
 import { processCreateSchema } from "@/schemas/process-create-schema";
-import { processIdParamsSchema } from "@/schemas/process-id-params-schema";
+import { processIdParamsSchema, type ProcessIdParams } from "@/schemas/process-id-params-schema";
 import { processListSchema } from "@/schemas/process-list-schema";
 import { processUpdateSchema } from "@/schemas/process-update-schema";
 import type { FastifyInstance } from "fastify";
@@ -55,7 +54,7 @@ export async function processRoutes(app: FastifyInstance) {
   );
 
   app.get<{ Params: ProcessIdParams }>(
-    "/processes/:id",
+    "/processes/:id/history",
     {
       preHandler: validate({
         params: processIdParamsSchema,

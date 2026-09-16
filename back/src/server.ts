@@ -5,7 +5,7 @@ import { AppError } from "@/errors/app-error";
 import { processRoutes } from "@/routes/process-routes";
 import { ZodError } from "zod";
 import { env } from "@/env";
-import { error } from "console";
+import { stageRoutes } from "@/routes/stage-routes";
 
 const app = Fastify();
 
@@ -18,6 +18,7 @@ app.get("/health", async () => {
 });
 
 app.register(processRoutes);
+app.register(stageRoutes);
 
 async function start() {
   try {
