@@ -3,13 +3,13 @@ import type { UpdateStageBody } from "@/controllers/stage-update-controller";
 import { makeStageControllers } from "@/factories/stage-factory";
 import { validate } from "@/middlewares/validate-middleware";
 import {
-  processStageIdParamsSchema,
   type ProcessStageIdParams,
+  processStageIdParamsSchema,
 } from "@/schemas/process-stage-id-params-schema";
 import { stageCreateSchema } from "@/schemas/stage-create-schema";
 import {
-  stageIdParamsSchema,
   type StageIdParams,
+  stageIdParamsSchema,
 } from "@/schemas/stage-id-params-schema";
 import { stageUpdateSchema } from "@/schemas/stage-update-schema";
 import type { FastifyInstance } from "fastify";

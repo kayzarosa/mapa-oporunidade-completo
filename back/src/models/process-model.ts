@@ -1,3 +1,5 @@
+import type { Prisma } from "@/generated/prisma/client";
+import { prisma } from "@/lib/prisma";
 import type { ProcessRepository } from "@/models/process-repository";
 import type {
   CreateProcessInput,
@@ -6,8 +8,6 @@ import type {
   ProcessType,
   UpdateProcessInput,
 } from "@/types/process";
-import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@/generated/prisma/client";
 
 export class PrismaProcessModel implements ProcessRepository {
   async create(data: CreateProcessInput): Promise<ProcessType> {

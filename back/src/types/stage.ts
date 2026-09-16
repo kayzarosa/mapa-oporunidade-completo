@@ -63,3 +63,11 @@ export type CreateStageInput =
     });
 
 export type UpdateStageInput = Omit<CreateStageInput, "processId">;
+
+export type UpdateStageData = UpdateStageInput & {
+  challenge?: string | null;
+  deadline?: Date | null;
+  compensation?: string | null;
+  benefits?: string | null;
+  respondBy?: Date | null;
+};

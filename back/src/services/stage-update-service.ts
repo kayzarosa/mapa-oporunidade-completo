@@ -12,7 +12,17 @@ export class UpdateStageService {
       throw new NotFoundError("Stage not found!");
     }
 
-    const updateStage = await this.stageRepository.update(id, data);
+    const clearedFields = {
+      challenge: null,
+      deadline: null,
+      compensation: null,
+      benefits: null,
+      respondBy: null,
+    };
+
+    const stageData = { ...clearedFields, ...data };
+
+    const updateStage = await this.stageRepository.update(id, stageData);
 
     return { stage: updateStage };
   }

@@ -1,11 +1,11 @@
-import Fastify from "fastify";
-import cors from "@fastify/cors";
-import { prisma } from "@/lib/prisma";
-import { AppError } from "@/errors/app-error";
-import { processRoutes } from "@/routes/process-routes";
-import { ZodError } from "zod";
 import { env } from "@/env";
+import { AppError } from "@/errors/app-error";
+import { prisma } from "@/lib/prisma";
+import { processRoutes } from "@/routes/process-routes";
 import { stageRoutes } from "@/routes/stage-routes";
+import cors from "@fastify/cors";
+import Fastify from "fastify";
+import { ZodError } from "zod";
 
 const app = Fastify();
 

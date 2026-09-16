@@ -3,7 +3,7 @@ import type { StageRepository } from "@/models/stage-repository";
 import type {
   CreateStageInput,
   StageType,
-  UpdateStageInput,
+  UpdateStageData,
 } from "@/types/stage";
 
 export class PrismaStageModel implements StageRepository {
@@ -22,7 +22,7 @@ export class PrismaStageModel implements StageRepository {
     return await prisma.stage.findUnique({ where: { id } });
   }
 
-  async update(id: string, data: UpdateStageInput): Promise<StageType> {
+  async update(id: string, data: UpdateStageData): Promise<StageType> {
     return await prisma.stage.update({ where: { id }, data });
   }
 
