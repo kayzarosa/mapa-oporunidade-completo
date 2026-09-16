@@ -1,6 +1,14 @@
-export const PROCESS_EXPECTATIONS = ["sonho", "gosto muito"] as const;
+export const PROCESS_EXPECTATIONS = {
+  sonho: "É o sonho",
+  "gosto muito": "Gosto muito",
+} as const;
 
-export type ProcessExpectation = (typeof PROCESS_EXPECTATIONS)[number];
+export type ProcessExpectation = keyof typeof PROCESS_EXPECTATIONS;
+
+export const PROCESS_EXPECTATION_SLUGS = Object.keys(PROCESS_EXPECTATIONS) as [
+  ProcessExpectation,
+  ...ProcessExpectation[],
+];
 
 export type ProcessType = {
   id: string;

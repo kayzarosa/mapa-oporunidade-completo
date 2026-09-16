@@ -1,20 +1,30 @@
-export const STAGE_TYPES = [
-  "triagem",
-  "tecnica",
-  "cultural",
-  "proposta",
-] as const;
+export const STAGE_TYPES = {
+  triagem: "Triagem",
+  tecnica: "Técnica",
+  cultural: "Cultural",
+  proposta: "Proposta",
+} as const;
 
-export const STAGE_STATUS = [
-  "agendada",
-  "aguardando",
-  "aprovada",
-  "reprovada",
-  "aceita",
-] as const;
+export const STAGE_STATUS = {
+  agendada: "Agendada",
+  aguardando: "Aguardando retorno",
+  aprovada: "Aprovada",
+  reprovada: "Reprovada",
+  aceita: "Aceita",
+} as const;
 
-export type StageTypeName = (typeof STAGE_TYPES)[number];
-export type StageStatus = (typeof STAGE_STATUS)[number];
+export type StageTypeName = keyof typeof STAGE_TYPES;
+export type StageStatus = keyof typeof STAGE_STATUS;
+
+export const STAGE_TYPE_SLUGS = Object.keys(STAGE_TYPES) as [
+  StageTypeName,
+  ...StageTypeName[],
+];
+
+export const STAGE_STATUS_SLUGS = Object.keys(STAGE_STATUS) as [
+  StageStatus,
+  ...StageStatus[],
+];
 
 export type StageType = {
   id: string;
@@ -33,19 +43,23 @@ export type StageType = {
   updatedAt: Date;
 };
 
-export type CreateStageInput = {
+type StageBaseInput = {
   processId: string;
   name: string;
-  type: string;
-  status: string;
+  status: StageStatus;
   date: Date;
   comment?: string;
 };
 
-export type UpdateStageInput = {
-  name?: string;
-  type?: string;
-  status?: string;
-  date?: Date;
-  comment?: string | null;
-};
+export type CreateStageInput =
+  | (StageBaseInput & { type: "triagem" })
+  | (StageBaseInput & { type: "cultural" })
+  | (StageBaseInput & { type: "tecnica"; challenge: string; deadline: Date })
+  | (StageBaseInput & {
+      type: "proposta";
+      compensation: string;
+      benefits: string;
+      respondBy: Date;
+    });
+
+export type UpdateStageInput = Omit<CreateStageInput, "processId">;

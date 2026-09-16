@@ -1,10 +1,27 @@
-import { STAGE_STATUS, STAGE_TYPES } from "@/types/stage";
+import { STAGE_STATUS_SLUGS } from "@/types/stage";
 import z from "zod";
 
-export const stageCreateSchema = z.object({
+const dateField = z.string().min(1).pipe(z.coerce.date());
+
+const stageBaseSchema = z.object({
   name: z.string().trim().min(1),
-  type: z.enum(STAGE_TYPES),
-  status: z.enum(STAGE_STATUS),
-  date: z.string().min(1).pipe(z.coerce.date()),
+  status: z.enum(STAGE_STATUS_SLUGS),
+  date: dateField,
   comment: z.string().optional(),
 });
+
+export const stageCreateSchema = z.discriminatedUnion("type", [
+  stageBaseSchema.extend({ type: z.literal("triagem") }),
+  stageBaseSchema.extend({ type: z.literal("cultural") }),
+  stageBaseSchema.extend({
+    type: z.literal("tecnica"),
+    challenge: z.string().trim().min(1),
+    deadline: dateField,
+  }),
+  stageBaseSchema.extend({
+    type: z.literal("proposta"),
+    compensation: z.string().trim().min(1),
+    benefits: z.string().trim().min(1),
+    respondBy: dateField,
+  }),
+]);
