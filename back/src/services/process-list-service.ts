@@ -7,8 +7,20 @@ export class ListProcessService {
   async execute(filters: ProcessFilters) {
     const { processes, total } = await this.processRepository.findAll(filters);
 
+    const companies = processes.map((process) => process.company);
+    const siblings = await this.processRepository.findByCompanies(companies);
+
+    const processesWithHistory = processes.map((process) => ({
+      ...process,
+      previousApplications: siblings.filter(
+        (sibling) =>
+          sibling.company === process.company &&
+          sibling.createdAt < process.createdAt,
+      ).length,
+    }));
+
     return {
-      processes,
+      process: processesWithHistory,
       total,
       page: filters.page,
       perPage: filters.perPage,

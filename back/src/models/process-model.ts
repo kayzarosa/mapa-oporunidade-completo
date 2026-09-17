@@ -62,4 +62,13 @@ export class PrismaProcessModel implements ProcessRepository {
   async delete(id: string): Promise<void> {
     await prisma.process.delete({ where: { id } });
   }
+
+  async findByCompanies(
+    companies: string[],
+  ): Promise<Pick<ProcessType, "id" | "company" | "createdAt">[]> {
+    return await prisma.process.findMany({
+      where: { company: { in: companies } },
+      select: { id: true, company: true, createdAt: true },
+    });
+  }
 }

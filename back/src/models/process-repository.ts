@@ -13,4 +13,7 @@ export interface ProcessRepository {
   findByCompany(company: string, excludeId: string): Promise<ProcessType[]>;
   update(id: string, data: UpdateProcessInput): Promise<ProcessType>;
   delete(id: string): Promise<void>;
+  findByCompanies(
+    companies: string[],
+  ): Promise<Pick<ProcessType, "id" | "company" | "createdAt">[]>;
 }
