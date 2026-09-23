@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Mapa de Oportunidades">
+  <path d="M6 26 C9 20 12 16 15 12" stroke="#0F172A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M16 27 C16 21 16 16 16 12" stroke="#0F172A" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M26 26 C23 20 20 16 17 12" stroke="#0F172A" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="1 4"/>
+  <line x1="16" y1="12" x2="16" y2="5" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M16 5 L25 8.5 L16 12 Z" fill="#4F46E5"/>
+</svg>

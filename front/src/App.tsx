@@ -1,7 +1,14 @@
+import { Route, Routes } from "react-router";
+import { Home } from "@/pages/Home";
+import { AppLayout } from "@/components/app-layout";
+
 export function App() {
   return (
-    <main className="flex h-screen items-center justify-center">
-      <h1 className="text-2xl font-semibold text-indigo-600">Hello World</h1>
-    </main>
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/processos/:id" element={"daf"} />
+      </Route>
+    </Routes>
   );
 }
