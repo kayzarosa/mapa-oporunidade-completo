@@ -25,7 +25,7 @@ export function getProcessBadge(
   stage: Stage | undefined,
   now = new Date(),
 ): ProcessBadge {
-  if (!stage) return { variant: "neutro", label: "Sem etapas" };
+  if (!stage) return { variant: "neutro", label: "Candidatura enviada" };
 
   if (stage.status === "reprovada")
     return { variant: "encerrado", label: "Seguiu em frente" };

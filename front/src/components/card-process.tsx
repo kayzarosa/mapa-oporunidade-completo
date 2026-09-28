@@ -2,13 +2,15 @@ import { Badge } from "@/components/badge";
 import { ControlButtons } from "@/components/control-button";
 import { expectationIcons } from "@/lib/icons";
 import type { ProcessListItem } from "@/types/process";
-import { Laugh, MessageSquare, Repeat } from "lucide-react";
+import { MessageSquare, Repeat } from "lucide-react";
 
 type CardProcessProps = {
   process: ProcessListItem;
+  onEdit: (process: ProcessListItem) => void;
+  onDelete: (process: ProcessListItem) => void;
 };
 
-export function CardProcess({ process }: CardProcessProps) {
+export function CardProcess({ process, onEdit, onDelete }: CardProcessProps) {
   const expectation = process.expectation
     ? expectationIcons[process.expectation]
     : null;
@@ -18,8 +20,8 @@ export function CardProcess({ process }: CardProcessProps) {
       <div className="w-full top-0 sm:hidden flex justify-end">
         <ControlButtons
           onShow={() => console.log("show")}
-          onEdit={() => console.log("edit")}
-          onDelete={() => console.log("delete")}
+          onEdit={() => onEdit(process)}
+          onDelete={() => onDelete(process)}
         />
       </div>
       <div className="w-full flex flex-row items-center justify-between">
@@ -46,8 +48,8 @@ export function CardProcess({ process }: CardProcessProps) {
           <div className="sm:inline hidden">
             <ControlButtons
               onShow={() => console.log("show")}
-              onEdit={() => console.log("show")}
-              onDelete={() => console.log("show")}
+              onEdit={() => onEdit(process)}
+              onDelete={() => onDelete(process)}
             />
           </div>
         </div>
@@ -57,14 +59,12 @@ export function CardProcess({ process }: CardProcessProps) {
         {process.role}
       </span>
 
-      {
-        (process.previousApplications > 0 && (
-          <span className="flex items-center gap-1 text-xs text-ink-faint">
-            <Repeat size={13} className="shrink-0" />
-            {process.previousApplications + 1}ª candidatura nesta empresa
-          </span>
-        ))
-      }
+      {process.previousApplications > 0 && (
+        <span className="flex items-center gap-1 text-xs text-ink-faint">
+          <Repeat size={13} className="shrink-0" />
+          {process.previousApplications + 1}ª candidatura nesta empresa
+        </span>
+      )}
 
       <Badge variant={process.badge.variant} className="mt-2">
         {process.badge.label}

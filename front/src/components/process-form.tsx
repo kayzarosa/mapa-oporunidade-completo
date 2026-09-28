@@ -10,6 +10,7 @@ import { useCreateProcess } from "@/hooks/process/use-create-process";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Process } from "@/types/process";
 import { useEffect } from "react";
+import { useUpdateProcess } from "@/hooks/process/use-update-process";
 
 type ProcessProps = {
   open: boolean;
@@ -17,10 +18,21 @@ type ProcessProps = {
   process?: Process | null;
 };
 
+function withProtocol(value: string) {
+  return /^https?:\/\//i.test(value) ? value : `https://${value}`;
+}
+
 const processFormSchema = z.object({
   company: z.string().trim().min(1, "Informe o nome da empresa"),
   role: z.string().trim().min(1, "Informe a vaga"),
-  jobUrl: z.string().trim(),
+  jobUrl: z
+    .string()
+    .trim()
+    .refine(
+      (value) =>
+        value === "" || z.httpUrl().safeParse(withProtocol(value)).success,
+      "Informe um link válido, ex: vagas.com/123",
+    ),
   date: z.string().min(1, "Informe a data em que você se candidatou"),
   expectation: z.enum(["neutro", "sonho", "gosto muito"]),
   note: z.string().trim(),
@@ -41,6 +53,7 @@ function toFormValues(process?: Process | null): ProcessFormValues {
 
 export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
   const { mutate: createProcess, isPending, isError } = useCreateProcess();
+  const updateProcess = useUpdateProcess();
 
   const {
     register,
@@ -63,6 +76,27 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
   }
 
   function onSubmit(values: ProcessFormValues) {
+    const onSuccess = () => handleOpenChange(false);
+
+    if (process) {
+      updateProcess.mutate(
+        {
+          id: process.id,
+          input: {
+            company: values.company,
+            role: values.role,
+            date: values.date,
+            jobUrl: values.jobUrl || null,
+            expectation:
+              values.expectation === "neutro" ? null : values.expectation,
+            note: values.note,
+          },
+        },
+        { onSuccess },
+      );
+      return;
+    }
+
     createProcess(
       {
         company: values.company,
@@ -73,13 +107,17 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           values.expectation === "neutro" ? undefined : values.expectation,
         note: values.note || undefined,
       },
-      { onSuccess: () => handleOpenChange(false) },
+      { onSuccess },
     );
   }
 
   return (
     <Modal open={open} onOpenChange={handleOpenChange} title="Novo processo">
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        noValidate
+        className="flex flex-col gap-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Input
           id="company"
           type="text"
@@ -88,6 +126,7 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           error={errors.company?.message}
           {...register("company")}
         />
+
         <Input
           id="role"
           type="text"
@@ -96,6 +135,7 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           error={errors.role?.message}
           {...register("role")}
         />
+
         <Input
           id="jobUrl"
           type="url"
@@ -104,11 +144,11 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           optional
           {...register("jobUrl")}
         />
+
         <Input
           id="date"
           type="date"
           label="Data em que você se candidatou"
-          hint="A etapa de triagem é criada automaticamente com essa data."
           error={errors.date?.message}
           {...register("date")}
         />

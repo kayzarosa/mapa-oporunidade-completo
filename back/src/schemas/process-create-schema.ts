@@ -13,7 +13,8 @@ export const processCreateSchema = z.object({
     .transform((value) =>
       /^https?:\/\//i.test(value) ? value : `https://${value}`,
     )
-    .pipe(z.httpUrl()).optional(),
+    .pipe(z.httpUrl())
+    .optional(),
   expectation: z.enum(PROCESS_EXPECTATION_SLUGS).optional(),
   note: z.string().optional(),
 });

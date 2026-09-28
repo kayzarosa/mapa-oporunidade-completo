@@ -11,7 +11,7 @@ const app = Fastify();
 
 const port = Number(env.PORT);
 
-app.register(cors, { origin: "*" });
+app.register(cors, { origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] });
 
 app.get("/health", async () => {
   return { status: "ok", message: "Hello World" };

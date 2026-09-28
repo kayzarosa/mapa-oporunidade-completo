@@ -4,16 +4,54 @@ import { CardProcess } from "@/components/card-process";
 import { ProcessForm } from "@/components/process-form";
 import { useState } from "react";
 import { useProcesses } from "@/hooks/process/use-processes";
+import type { Process } from "@/types/process";
+import { ConfirmModal } from "@/components/confirm-modal";
+import { useDeleteProcess } from "@/hooks/process/use-delete-process";
 
 export function Home() {
   const { data, isLoading } = useProcesses();
+  const deleteProcess = useDeleteProcess();
 
   const processes = data?.process ?? [];
 
   const [open, setOpen] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [processDelete, setProcessDelete] = useState<Process | null>(null);
+  const [selected, setSelected] = useState<Process | null>(null);
 
   function handleCloseModal() {
-    setOpen(!open);
+    setOpen(false);
+  }
+
+  function handleCloseModalConfirm() {
+    setOpenConfirm(false);
+    setProcessDelete(null);
+  }
+
+  function handleOpenModalConfirm(process: Process) {
+    setOpenConfirm(true);
+    setProcessDelete(process);
+  }
+
+  function handleNew() {
+    setSelected(null);
+    setOpen(true);
+  }
+
+  function handleEdit(process: Process) {
+    setSelected(process);
+    setOpen(true);
+  }
+
+  function handleConfirmOk() {
+    if (processDelete === null) return;
+
+    deleteProcess.mutate(
+      {
+        id: processDelete.id,
+      },
+      { onSuccess: handleCloseModalConfirm },
+    );
   }
 
   return (
@@ -22,7 +60,7 @@ export function Home() {
         <div className="mx-auto flex flex-1 justify-between w-full">
           <h1 className="text-[24px] text-ink font-semibold">Meus processos</h1>
 
-          <Button onClick={handleCloseModal}>
+          <Button onClick={handleNew}>
             <Plus size={15} />
             Novo
           </Button>
@@ -47,7 +85,7 @@ export function Home() {
                 Cadastre uma empresa e a vaga que você está tentando
               </span>
 
-              <Button className="mt-4" onClick={handleCloseModal}>
+              <Button className="mt-4" onClick={handleNew}>
                 <Plus size={15} />
                 Novo processo
               </Button>
@@ -57,14 +95,32 @@ export function Home() {
           {processes.length > 0 && (
             <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
               {processes.map((process) => (
-                <CardProcess key={process.id} process={process} />
+                <CardProcess
+                  key={process.id}
+                  process={process}
+                  onEdit={handleEdit}
+                  onDelete={handleOpenModalConfirm}
+                />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      <ProcessForm open={open} onOpenChange={handleCloseModal} />
+      <ProcessForm
+        open={open}
+        onOpenChange={handleCloseModal}
+        process={selected}
+      />
+
+      <ConfirmModal
+        open={openConfirm}
+        onOpenChange={handleCloseModalConfirm}
+        onConfirmChange={handleConfirmOk}
+        title="Excluir processo"
+        message={`O processo da ${processDelete?.company} e 
+        todas as etapas dele serão apagadas. Essa ação não pode ser desfeita.`}
+      />
     </>
   );
 }

@@ -22,7 +22,7 @@ export class PrismaProcessModel implements ProcessRepository {
   }: ProcessFilters): Promise<PaginatedProcesses> {
     const where: Prisma.ProcessWhereInput = {
       ...(company ? { company: { contains: company } } : {}),
-      ...(expectation ? { expectation: { contains: expectation } } : {}),
+      ...(expectation ? { expectation } : {}),
     };
 
     const [processes, total] = await prisma.$transaction([
