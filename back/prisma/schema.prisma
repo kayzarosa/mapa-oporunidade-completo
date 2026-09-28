@@ -11,6 +11,8 @@ model Process {
   id          String   @id @default(uuid())
   company     String
   role        String
+  date        DateTime
+  jobUrl      String?
   expectation String?
   note        String?
   createdAt   DateTime @default(now())

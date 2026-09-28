@@ -31,6 +31,7 @@ export class PrismaProcessModel implements ProcessRepository {
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * perPage,
         take: perPage,
+        include: { stages: { orderBy: { date: "desc" }, take: 1 } },
       }),
       prisma.process.count({ where }),
     ]);

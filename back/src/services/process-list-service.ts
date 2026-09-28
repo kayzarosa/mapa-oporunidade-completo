@@ -1,3 +1,4 @@
+import { getProcessBadge } from "@/lib/process-badge";
 import type { ProcessRepository } from "@/models/process-repository";
 import type { ProcessFilters } from "@/types/process";
 
@@ -17,6 +18,7 @@ export class ListProcessService {
           sibling.company === process.company &&
           sibling.createdAt < process.createdAt,
       ).length,
+      badge: getProcessBadge(process.stages[0]),
     }));
 
     return {

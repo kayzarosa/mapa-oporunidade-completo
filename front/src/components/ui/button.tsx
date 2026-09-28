@@ -12,9 +12,9 @@ export const buttonVariants = tv({
       primary: `leading-3.25 text-sm rounded-control text-surface 
                 bg-accent px-4 py-4 h-10 hover:bg-accent-hover
                 disabled:bg-accent/60`,
-      secondary: `leading-3.25 text-sm cursor-pointer rounded-control text-surface 
-                bg-surface hover:bg-surface-2 border px-4 py-4 h-10 text-ink border-line`,
-      icon: `rounded-control cursor-pointer text-ink-muted p-1.5
+      secondary: `leading-3.25 text-sm rounded-control text-surface 
+                bg-surface-2 hover:bg-surface-2 border px-4 py-4 h-10 text-ink border-line`,
+      icon: `rounded-control text-ink-muted p-1.5
               hover:bg-accent-soft hover:text-accent
               disabled:opacity-50`,
     },

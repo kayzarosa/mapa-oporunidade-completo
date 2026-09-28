@@ -1,3 +1,5 @@
+import type { Stage } from "@/generated/prisma/client";
+
 export const PROCESS_EXPECTATIONS = {
   sonho: "É o sonho",
   "gosto muito": "Gosto muito",
@@ -15,6 +17,8 @@ export type ProcessType = {
   company: string;
   role: string;
   expectation: string | null;
+  date: Date;
+  jobUrl: string | null;
   note: string | null;
   createdAt: Date;
   updatedAt: Date;
@@ -24,6 +28,8 @@ export type CreateProcessInput = {
   company: string;
   role: string;
   expectation?: string;
+  date: Date;
+  jobUrl?: string;
   note?: string;
 };
 
@@ -31,6 +37,8 @@ export type UpdateProcessInput = {
   company?: string;
   role?: string;
   expectation?: string | null;
+  date?: Date;
+  jobUrl?: string | null;
   note?: string;
 };
 
@@ -42,6 +50,6 @@ export type ProcessFilters = {
 };
 
 export type PaginatedProcesses = {
-  processes: ProcessType[];
+  processes: (ProcessType & { stages: Stage[] })[];
   total: number;
 };
