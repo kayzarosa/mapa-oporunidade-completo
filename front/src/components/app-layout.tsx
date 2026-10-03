@@ -6,7 +6,7 @@ export function AppLayout() {
     <div className="min-h-screen bg-surface-2">
       <header className="border-b border-line bg-surface">
         <div className="mx-auto flex max-w-5xl items-center gap-2 px-5 py-3">
-          <img src={Logo} alt="Mapa de Oportunidades" className="size-8" />
+          <img src={Logo} alt="" className="size-8" />
           <span className="text-[18px] font-semibold">
             Mapa de Oportunidades
           </span>

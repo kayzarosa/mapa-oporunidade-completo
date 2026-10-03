@@ -6,6 +6,7 @@ import type {
   PaginatedProcesses,
   ProcessFilters,
   ProcessType,
+  ProcessWithStages,
   UpdateProcessInput,
 } from "@/types/process";
 
@@ -43,16 +44,26 @@ export class PrismaProcessModel implements ProcessRepository {
     return await prisma.process.findUnique({ where: { id } });
   }
 
+  async findByIdWithStages(id: string): Promise<ProcessWithStages | null> {
+    return await prisma.process.findUnique({
+      where: { id },
+      include: { stages: { orderBy: { date: "desc" }, take: 1 } },
+    });
+  }
+
   async findByCompany(
     company: string,
     excludeId: string,
-  ): Promise<ProcessType[]> {
+    before: Date,
+  ): Promise<ProcessWithStages[]> {
     return await prisma.process.findMany({
       where: {
         company,
         id: { not: excludeId },
+        createdAt: { lt: before },
       },
       orderBy: { createdAt: "desc" },
+      include: { stages: { orderBy: { date: "desc" }, take: 1 } },
     });
   }
 

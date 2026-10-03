@@ -1,11 +1,13 @@
 import { CreateProcessController } from "@/controllers/process-create-controller";
 import { DeleteProcessController } from "@/controllers/process-delete-controller";
+import { FindProcessController } from "@/controllers/process-find-controller";
 import { HistoryProcessController } from "@/controllers/process-history-controller";
 import { ListProcessController } from "@/controllers/process-list-controller";
 import { UpdateProcessController } from "@/controllers/process-update-controller";
 import { PrismaProcessModel } from "@/models/process-model";
 import { CreateProcessService } from "@/services/process-create-service";
 import { DeleteProcessService } from "@/services/process-delete-service";
+import { FindProcessService } from "@/services/process-find-service";
 import { HistoryProcessService } from "@/services/process-history-service";
 import { ListProcessService } from "@/services/process-list-service";
 import { UpdateProcessService } from "@/services/process-update-service";
@@ -20,6 +22,10 @@ export function makeProcessControllers() {
 
     listProcessController: new ListProcessController(
       new ListProcessService(processRepository),
+    ),
+
+    findProcessController: new FindProcessController(
+      new FindProcessService(processRepository),
     ),
 
     updateProcessController: new UpdateProcessController(

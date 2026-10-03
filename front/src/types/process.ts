@@ -1,4 +1,5 @@
-import type { ProcessExpectation, StageStatus } from "@/lib/icons";
+import type { ProcessExpectation, BadgeVariant } from "@/lib/icons";
+import type { StageTypeName } from "@/types/stages";
 
 export type Process = {
   id: string;
@@ -23,7 +24,8 @@ export type CreateProcessInput = {
 
 export type ProcessListItem = Process & {
   previousApplications: number;
-  badge: { variant: StageStatus; label: string };
+  badge: { variant: BadgeVariant; label: string };
+  stages: { type: StageTypeName }[];
 };
 
 export type ProcessListResponse = {
@@ -33,3 +35,9 @@ export type ProcessListResponse = {
   perPage: number;
   totalPages: number;
 };
+
+export type ProcessHistoryItem = Process & { result: string };
+
+export type ProcessHistoryResponse = { history: ProcessHistoryItem[] };
+
+export type ProcessDetailResponse = { process: ProcessListItem };

@@ -1,6 +1,7 @@
 import { Badge } from "@/components/badge";
 import { ControlButtons } from "@/components/control-button";
 import { expectationIcons } from "@/lib/icons";
+import { stageTypeLabels } from "@/lib/stage-types";
 import type { ProcessListItem } from "@/types/process";
 import { MessageSquare, Repeat } from "lucide-react";
 
@@ -8,18 +9,28 @@ type CardProcessProps = {
   process: ProcessListItem;
   onEdit: (process: ProcessListItem) => void;
   onDelete: (process: ProcessListItem) => void;
+  onShow: (process: ProcessListItem) => void;
 };
 
-export function CardProcess({ process, onEdit, onDelete }: CardProcessProps) {
+export function CardProcess({
+  process,
+  onEdit,
+  onDelete,
+  onShow,
+}: CardProcessProps) {
   const expectation = process.expectation
     ? expectationIcons[process.expectation]
     : null;
+
+  const currentStage = process.stages[0];
+
+  const previousApplications = process.previousApplications + 1;
 
   return (
     <div className="w-full flex flex-col justify-between p-5 gap-0.5 border-2 border-line rounded-card">
       <div className="w-full top-0 sm:hidden flex justify-end">
         <ControlButtons
-          onShow={() => console.log("show")}
+          onShow={() => onShow(process)}
           onEdit={() => onEdit(process)}
           onDelete={() => onDelete(process)}
         />
@@ -43,11 +54,15 @@ export function CardProcess({ process, onEdit, onDelete }: CardProcessProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          <span className="mr-2 text-xs text-ink-muted">técnica</span>
+          {currentStage && (
+            <span className="mr-2 text-xs text-ink-muted">
+              {stageTypeLabels[currentStage.type]}
+            </span>
+          )}
 
           <div className="sm:inline hidden">
             <ControlButtons
-              onShow={() => console.log("show")}
+              onShow={() => onShow(process)}
               onEdit={() => onEdit(process)}
               onDelete={() => onDelete(process)}
             />
@@ -62,7 +77,9 @@ export function CardProcess({ process, onEdit, onDelete }: CardProcessProps) {
       {process.previousApplications > 0 && (
         <span className="flex items-center gap-1 text-xs text-ink-faint">
           <Repeat size={13} className="shrink-0" />
-          {process.previousApplications + 1}ª candidatura nesta empresa
+          {process.previousApplications + 1}ª{" "}
+          {previousApplications === 1 ? "candidatura" : "candidaturas"} nesta
+          empresa
         </span>
       )}
 

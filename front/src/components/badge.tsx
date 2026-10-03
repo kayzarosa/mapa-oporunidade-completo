@@ -1,4 +1,4 @@
-import { statusBadges, type StageStatus } from "@/lib/icons";
+import { statusBadges, type BadgeVariant } from "@/lib/icons";
 import type { ComponentProps } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
@@ -12,7 +12,7 @@ export const badgeVariants = tv({
       danger: "bg-danger-soft text-danger px-2 py-1",
       warning: "bg-warning-soft text-warning px-2 py-1",
       success: "bg-success-soft text-success px-2 py-1",
-      closed: "bg-closed-soft text-closed",
+      closed: "bg-closed-soft text-closed px-2 py-1",
     },
   },
 
@@ -24,7 +24,7 @@ export const badgeVariants = tv({
 export type BadgeTone = NonNullable<VariantProps<typeof badgeVariants>["tone"]>;
 
 type BadgeProps = ComponentProps<"span"> & {
-  variant: StageStatus;
+  variant: BadgeVariant;
 };
 
 export function Badge({ variant, className, children, ...props }: BadgeProps) {

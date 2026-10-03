@@ -27,7 +27,7 @@ export function Modal({ open, onOpenChange, title, children }: ModalProps) {
 
           {children}
 
-          <Dialog.Close className="absolute top-4 right-4 cursor-pointer text-gray-400 hover:text-gray-600">
+          <Dialog.Close className="absolute top-4 right-4 cursor-pointer text-ink-faint hover:text-ink">
             <X size={18} />
           </Dialog.Close>
         </Dialog.Content>

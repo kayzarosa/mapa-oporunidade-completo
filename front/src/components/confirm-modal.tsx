@@ -5,6 +5,8 @@ type ConfirmModalProps = {
   title: string;
   message: string;
   open: boolean;
+  isLoading?: boolean;
+  isError?: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirmChange: () => void;
 };
@@ -13,6 +15,8 @@ export function ConfirmModal({
   title,
   message,
   open,
+  isLoading,
+  isError,
   onOpenChange,
   onConfirmChange,
 }: ConfirmModalProps) {
@@ -21,6 +25,12 @@ export function ConfirmModal({
       <div className="flex flex-col">
         <p className="text-[14px] font-normal text-ink">{message}</p>
 
+        {isError && (
+          <span className="mt-2 text-xs text-danger">
+            Não foi possível excluir. Tente de novo.
+          </span>
+        )}
+
         <hr className="mt-5 border border-line" />
 
         <div className="flex flex-row justify-end mt-2 gap-2">
@@ -28,11 +38,17 @@ export function ConfirmModal({
             type="button"
             variant="secondary"
             onClick={() => onOpenChange(false)}
+            disabled={isLoading}
           >
             Cancelar
           </Button>
 
-          <Button type="button" onClick={onConfirmChange}>
+          <Button
+            type="button"
+            onClick={onConfirmChange}
+            disabled={isLoading}
+            isLoading={isLoading}
+          >
             Excluir processo
           </Button>
         </div>

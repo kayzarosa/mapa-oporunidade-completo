@@ -4,6 +4,7 @@
   --bg: #f8fafc;
   --surface: #ffffff;
   --surface-2: #f1f5f9;
+  --surface-3: #E2E8F0;
   --line: #e2e8f0;
   --ink: #0f172a;
   --ink-muted: #475569;
@@ -20,12 +21,6 @@
   --closed: #0f766e;
   --closed-soft: #f0fdfa;
 
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 12px;
-  --space-lg: 16px;
-  --space-xl: 24px;
-
   --r-badge: 6px;
   --r-control: 8px;
   --r-card: 12px;
@@ -35,6 +30,7 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-line: var(--line);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
@@ -50,12 +46,6 @@
   --color-success-soft: var(--success-soft);
   --color-closed: var(--closed);
   --color-closed-soft: var(--closed-soft);
-
-  --spacing-xs: var(--space-xs);
-  --spacing-sm: var(--space-sm);
-  --spacing-md: var(--space-md);
-  --spacing-lg: var(--space-lg);
-  --spacing-xl: var(--space-xl);
 
   --radius-badge: var(--r-badge);
   --radius-control: var(--r-control);

@@ -14,7 +14,7 @@ export const STAGE_STATUS = {
 } as const;
 
 export type StageTypeName = keyof typeof STAGE_TYPES;
-export type StageStatus = keyof typeof STAGE_STATUS;
+export type StagesStatus = keyof typeof STAGE_STATUS;
 
 export const STAGE_TYPE_SLUGS = Object.keys(STAGE_TYPES) as [
   StageTypeName,
@@ -22,8 +22,8 @@ export const STAGE_TYPE_SLUGS = Object.keys(STAGE_TYPES) as [
 ];
 
 export const STAGE_STATUS_SLUGS = Object.keys(STAGE_STATUS) as [
-  StageStatus,
-  ...StageStatus[],
+  StagesStatus,
+  ...StagesStatus[],
 ];
 
 export type StageType = {
@@ -46,7 +46,7 @@ export type StageType = {
 type StageBaseInput = {
   processId: string;
   name: string;
-  status: StageStatus;
+  status: StagesStatus;
   date: Date;
   comment?: string;
 };

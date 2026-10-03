@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 
 type ControlButtonProps = {
-  onShow(): void;
+  onShow?(): void;
   onEdit(): void;
   onDelete(): void;
 };
@@ -14,9 +14,11 @@ export function ControlButtons({
 }: ControlButtonProps) {
   return (
     <div className="flex items-center gap-1">
-      <Button variant="icon" aria-label="Ver detalhes" onClick={onShow}>
-        <Eye size={16} />
-      </Button>
+      {onShow && (
+        <Button variant="icon" aria-label="Ver detalhes" onClick={onShow}>
+          <Eye size={16} />
+        </Button>
+      )}
       <Button variant="icon" aria-label="Editar" onClick={onEdit}>
         <Pencil size={16} />
       </Button>

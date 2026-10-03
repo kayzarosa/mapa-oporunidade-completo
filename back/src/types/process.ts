@@ -49,7 +49,9 @@ export type ProcessFilters = {
   perPage: number;
 };
 
+export type ProcessWithStages = ProcessType & { stages: Stage[] };
+
 export type PaginatedProcesses = {
-  processes: (ProcessType & { stages: Stage[] })[];
+  processes: ProcessWithStages[];
   total: number;
 };

@@ -16,6 +16,7 @@ export async function processRoutes(app: FastifyInstance) {
   const {
     createProcessController,
     listProcessController,
+    findProcessController,
     updateProcessController,
     deleteProcessController,
     historyProcessController,
@@ -31,6 +32,12 @@ export async function processRoutes(app: FastifyInstance) {
     "/processes",
     { preHandler: validate({ querystring: processListSchema }) },
     (request, replay) => listProcessController.handle(request, replay),
+  );
+
+  app.get<{ Params: ProcessIdParams }>(
+    "/processes/:id",
+    { preHandler: validate({ params: processIdParamsSchema }) },
+    (request, replay) => findProcessController.handle(request, replay),
   );
 
   app.put<{ Params: ProcessIdParams; Body: UpdateProcessBody }>(

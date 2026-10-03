@@ -40,7 +40,7 @@ export function SelectField<T extends string>({
 }: SelectFieldProps<T>) {
   return (
     <div className={twMerge("flex w-full flex-col gap-1", className)}>
-      <label htmlFor={id} className="text-xs font-medium text-ink">
+      <label htmlFor={id} className="text-[14px] font-medium text-ink">
         {label}
         {optional && (
           <span className="font-normal text-ink-faint"> — opcional</span>

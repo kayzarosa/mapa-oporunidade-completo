@@ -4,13 +4,15 @@ import { CardProcess } from "@/components/card-process";
 import { ProcessForm } from "@/components/process-form";
 import { useState } from "react";
 import { useProcesses } from "@/hooks/process/use-processes";
-import type { Process } from "@/types/process";
+import type { Process, ProcessListItem } from "@/types/process";
 import { ConfirmModal } from "@/components/confirm-modal";
 import { useDeleteProcess } from "@/hooks/process/use-delete-process";
+import { useNavigate } from "react-router";
 
 export function Home() {
   const { data, isLoading } = useProcesses();
   const deleteProcess = useDeleteProcess();
+  const navigate = useNavigate();
 
   const processes = data?.process ?? [];
 
@@ -52,6 +54,10 @@ export function Home() {
       },
       { onSuccess: handleCloseModalConfirm },
     );
+  }
+
+  function handleShow(process: ProcessListItem) {
+    navigate(`/processos/${process.id}`);
   }
 
   return (
@@ -100,6 +106,7 @@ export function Home() {
                   process={process}
                   onEdit={handleEdit}
                   onDelete={handleOpenModalConfirm}
+                  onShow={handleShow}
                 />
               ))}
             </div>
@@ -117,6 +124,8 @@ export function Home() {
         open={openConfirm}
         onOpenChange={handleCloseModalConfirm}
         onConfirmChange={handleConfirmOk}
+        isLoading={deleteProcess.isPending}
+        isError={deleteProcess.isError}
         title="Excluir processo"
         message={`O processo da ${processDelete?.company} e 
         todas as etapas dele serão apagadas. Essa ação não pode ser desfeita.`}

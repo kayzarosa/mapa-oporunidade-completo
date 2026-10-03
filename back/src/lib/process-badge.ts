@@ -1,5 +1,5 @@
 import type { Stage } from "@/generated/prisma/client";
-import { STAGE_STATUS, type StageStatus } from "@/types/stage";
+import { STAGE_STATUS, type StagesStatus } from "@/types/stage";
 
 const DAY = 1000 * 60 * 60 * 24;
 
@@ -59,6 +59,6 @@ export function getProcessBadge(
 
   return {
     variant: "neutro",
-    label: STAGE_STATUS[stage.status as StageStatus],
+    label: STAGE_STATUS[stage.status as StagesStatus],
   };
 }

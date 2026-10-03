@@ -1,4 +1,5 @@
 import { NotFoundError } from "@/errors/not-found";
+import { getProcessResult } from "@/lib/process-result";
 import type { ProcessRepository } from "@/models/process-repository";
 
 export class HistoryProcessService {
@@ -11,10 +12,16 @@ export class HistoryProcessService {
       throw new NotFoundError("Process not found!");
     }
 
-    const history = await this.processRepository.findByCompany(
+    const processes = await this.processRepository.findByCompany(
       findProcess.company,
       findProcess.id,
+      findProcess.createdAt,
     );
+
+    const history = processes.map((item) => ({
+      ...item,
+      result: getProcessResult(item.stages[0]),
+    }));
 
     return { history };
   }

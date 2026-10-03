@@ -16,7 +16,7 @@ export function useUpdateProcess() {
 
   return useMutation({
     mutationFn: ({ id, input }: { id: string; input: UpdateProcessInput }) =>
-      api<[process: Process]>(`/processes/${id}`, {
+      api<{ process: Process }>(`/processes/${id}`, {
         method: "PUT",
         body: JSON.stringify(input),
       }),

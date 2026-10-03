@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import type { BadgeTone } from "@/components/badge";
 
-export type StageStatus =
+export type BadgeVariant =
   | "urgente"
   | "atencao"
   | "info"
@@ -23,7 +23,7 @@ export type StageStatus =
 export type ProcessExpectation = "sonho" | "gosto muito";
 
 export const statusBadges: Record<
-  StageStatus,
+  BadgeVariant,
   { icon: LucideIcon | null; tone: BadgeTone }
 > = {
   urgente: { icon: CircleAlert, tone: "danger" },

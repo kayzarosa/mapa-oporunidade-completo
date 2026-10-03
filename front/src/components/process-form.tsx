@@ -55,6 +55,9 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
   const { mutate: createProcess, isPending, isError } = useCreateProcess();
   const updateProcess = useUpdateProcess();
 
+  const isSaving = isPending || updateProcess.isPending;
+  const hasError = isError || updateProcess.isError;
+
   const {
     register,
     control,
@@ -112,7 +115,11 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
   }
 
   return (
-    <Modal open={open} onOpenChange={handleOpenChange} title="Novo processo">
+    <Modal
+      open={open}
+      onOpenChange={handleOpenChange}
+      title={process ? "Editar processo" : "Novo processo"}
+    >
       <form
         noValidate
         className="flex flex-col gap-4"
@@ -142,6 +149,7 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           label="Link da vaga"
           placeholder="https://"
           optional
+          error={errors.jobUrl?.message}
           {...register("jobUrl")}
         />
 
@@ -176,7 +184,7 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           {...register("note")}
         />
 
-        {isError && (
+        {hasError && (
           <span className="text-xs text-danger">
             Não foi possível salvar. Tente de novo.
           </span>
@@ -188,6 +196,7 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
             variant="secondary"
             type="button"
             onClick={() => handleOpenChange(false)}
+            disabled={isSaving}
           >
             Cancelar
           </Button>
@@ -195,8 +204,8 @@ export function ProcessForm({ open, onOpenChange, process }: ProcessProps) {
           <Button
             variant="primary"
             type="submit"
-            isLoading={isPending}
-            disabled={isPending}
+            isLoading={isSaving}
+            disabled={isSaving}
           >
             Salvar processo
           </Button>

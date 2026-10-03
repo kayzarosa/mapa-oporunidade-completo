@@ -13,7 +13,8 @@ export const buttonVariants = tv({
                 bg-accent px-4 py-4 h-10 hover:bg-accent-hover
                 disabled:bg-accent/60`,
       secondary: `leading-3.25 text-sm rounded-control text-surface 
-                bg-surface-2 hover:bg-surface-2 border px-4 py-4 h-10 text-ink border-line`,
+                bg-surface-2 hover:bg-surface-3 border px-4 py-4 h-10 
+                text-ink border-line`,
       icon: `rounded-control text-ink-muted p-1.5
               hover:bg-accent-soft hover:text-accent
               disabled:opacity-50`,
@@ -42,10 +43,7 @@ export function Button({
   const Component = asChild ? Slot : "button";
 
   return (
-    <Component
-      className={buttonVariants({ variant, className })}
-      {...props}
-    >
+    <Component className={buttonVariants({ variant, className })} {...props}>
       {asChild ? (
         children
       ) : (
