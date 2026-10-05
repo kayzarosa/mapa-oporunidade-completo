@@ -28,7 +28,7 @@ export function getProcessBadge(
   if (!stage) return { variant: "neutro", label: "Candidatura enviada" };
 
   if (stage.status === "reprovada")
-    return { variant: "encerrado", label: "Seguiu em frente" };
+    return { variant: "encerrado", label: "Processo encerrado" };
 
   if (stage.type === "proposta" && stage.status === "aceita")
     return { variant: "conquista", label: "Consegui!" };

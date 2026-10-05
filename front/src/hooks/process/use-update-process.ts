@@ -1,15 +1,6 @@
 import { api } from "@/lib/api/api";
-import type { Process } from "@/types/process";
+import type { Process, UpdateProcessInput } from "@/types/process";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-export type UpdateProcessInput = {
-  company: string;
-  role: string;
-  date: string;
-  jobUrl: string | null;
-  expectation: Process["expectation"];
-  note: string;
-};
 
 export function useUpdateProcess() {
   const queryClient = useQueryClient();

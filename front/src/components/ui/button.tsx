@@ -1,7 +1,7 @@
-import type { ComponentProps } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { Loader2 } from "lucide-react";
-import { tv, type VariantProps } from "tailwind-variants";
+import type { ComponentProps } from "react";
+import { type VariantProps, tv } from "tailwind-variants";
 
 export const buttonVariants = tv({
   base: `inline-flex items-center justify-center gap-1.5 font-semibold 

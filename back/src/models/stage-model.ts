@@ -14,7 +14,7 @@ export class PrismaStageModel implements StageRepository {
   async findByProcessId(processId: string): Promise<StageType[]> {
     return await prisma.stage.findMany({
       where: { processId },
-      orderBy: { date: "asc" },
+      orderBy: { date: "desc" },
     });
   }
 

@@ -1,12 +1,13 @@
-import { Briefcase, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { CardProcess } from "@/components/card-process";
+import { ConfirmModal } from "@/components/confirm-modal";
+import { HomeSkeleton } from "@/components/home-skeleton";
 import { ProcessForm } from "@/components/process-form";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useDeleteProcess } from "@/hooks/process/use-delete-process";
 import { useProcesses } from "@/hooks/process/use-processes";
 import type { Process, ProcessListItem } from "@/types/process";
-import { ConfirmModal } from "@/components/confirm-modal";
-import { useDeleteProcess } from "@/hooks/process/use-delete-process";
+import { Briefcase, Plus } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export function Home() {
@@ -68,7 +69,7 @@ export function Home() {
 
           <Button onClick={handleNew}>
             <Plus size={15} />
-            Novo
+            Novo processo
           </Button>
         </div>
 
@@ -76,40 +77,46 @@ export function Home() {
           className={`mt-5 flex w-full items-center justify-center p-6
                   rounded-card border border-line bg-surface`}
         >
-          {!isLoading && processes.length === 0 && (
-            <div
-              className={`flex flex-col pt-10 pb-10 pr-4 pl-4 items-center 
+          {isLoading ? (
+            <HomeSkeleton />
+          ) : (
+            <>
+              {!isLoading && processes.length === 0 && (
+                <div
+                  className={`flex flex-col pt-10 pb-10 pr-4 pl-4 items-center 
                           justify-center text-ink-faint`}
-            >
-              <Briefcase size={28} />
+                >
+                  <Briefcase size={28} />
 
-              <span className="text-[18px] font-normal pt-3 text-ink">
-                Comece pelo primeiro processo
-              </span>
+                  <span className="text-[18px] font-medium pt-3 text-ink">
+                    Comece pelo primeiro processo
+                  </span>
 
-              <span className="text-[16px] font-normal pt-1 text-ink-muted">
-                Cadastre uma empresa e a vaga que você está tentando
-              </span>
+                  <span className="text-[16px] font-normal pt-1 text-ink-muted">
+                    Cadastre uma empresa e a vaga que você está tentando
+                  </span>
 
-              <Button className="mt-4" onClick={handleNew}>
-                <Plus size={15} />
-                Novo processo
-              </Button>
-            </div>
-          )}
+                  <Button className="mt-4" onClick={handleNew}>
+                    <Plus size={15} />
+                    Novo processo
+                  </Button>
+                </div>
+              )}
 
-          {processes.length > 0 && (
-            <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
-              {processes.map((process) => (
-                <CardProcess
-                  key={process.id}
-                  process={process}
-                  onEdit={handleEdit}
-                  onDelete={handleOpenModalConfirm}
-                  onShow={handleShow}
-                />
-              ))}
-            </div>
+              {processes.length > 0 && (
+                <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
+                  {processes.map((process) => (
+                    <CardProcess
+                      key={process.id}
+                      process={process}
+                      onEdit={handleEdit}
+                      onDelete={handleOpenModalConfirm}
+                      onShow={handleShow}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -129,6 +136,7 @@ export function Home() {
         title="Excluir processo"
         message={`O processo da ${processDelete?.company} e 
         todas as etapas dele serão apagadas. Essa ação não pode ser desfeita.`}
+        labelButton="Excluir processo"
       />
     </>
   );

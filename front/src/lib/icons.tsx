@@ -1,15 +1,15 @@
+import type { BadgeTone } from "@/components/badge";
 import {
-  Mail,
-  Laugh,
-  Smile,
-  type LucideIcon,
+  Archive,
+  Check,
   CircleAlert,
   Clock,
-  Check,
+  Laugh,
+  type LucideIcon,
+  Mail,
+  Smile,
   Trophy,
-  Leaf,
 } from "lucide-react";
-import type { BadgeTone } from "@/components/badge";
 
 export type BadgeVariant =
   | "urgente"
@@ -32,7 +32,7 @@ export const statusBadges: Record<
   sucesso: { icon: Check, tone: "success" },
   conquista: { icon: Trophy, tone: "success" },
   neutro: { icon: null, tone: "neutral" },
-  encerrado: { icon: Leaf, tone: "closed" },
+  encerrado: { icon: Archive, tone: "closed" },
 };
 
 export const expectationIcons: Record<

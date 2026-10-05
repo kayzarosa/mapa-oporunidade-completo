@@ -4,6 +4,7 @@ import { Modal } from "@/components/ui/modal";
 type ConfirmModalProps = {
   title: string;
   message: string;
+  labelButton: string;
   open: boolean;
   isLoading?: boolean;
   isError?: boolean;
@@ -14,6 +15,7 @@ type ConfirmModalProps = {
 export function ConfirmModal({
   title,
   message,
+  labelButton,
   open,
   isLoading,
   isError,
@@ -49,7 +51,7 @@ export function ConfirmModal({
             disabled={isLoading}
             isLoading={isLoading}
           >
-            Excluir processo
+            {labelButton}
           </Button>
         </div>
       </div>

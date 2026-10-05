@@ -1,4 +1,4 @@
-import type { ProcessExpectation, BadgeVariant } from "@/lib/icons";
+import type { BadgeVariant, ProcessExpectation } from "@/lib/icons";
 import type { StageTypeName } from "@/types/stages";
 
 export type Process = {
@@ -20,6 +20,15 @@ export type CreateProcessInput = {
   jobUrl?: string;
   expectation?: ProcessExpectation;
   note?: string;
+};
+
+export type UpdateProcessInput = {
+  company: string;
+  role: string;
+  date: string;
+  jobUrl: string | null;
+  expectation: Process["expectation"];
+  note: string;
 };
 
 export type ProcessListItem = Process & {

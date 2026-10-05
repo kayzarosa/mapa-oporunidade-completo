@@ -1,4 +1,4 @@
-import { expectationIcons, type ProcessExpectation } from "@/lib/icons";
+import { type ProcessExpectation, expectationIcons } from "@/lib/icons";
 import type { LucideIcon } from "lucide-react";
 
 export type ExpectationOption = ProcessExpectation | "neutro";

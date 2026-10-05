@@ -8,12 +8,21 @@ type TextareaProps = ComponentProps<"textarea"> & {
   error?: string;
 };
 
-export function Textarea({ id, label, optional, error, className, ...props }: TextareaProps) {
+export function Textarea({
+  id,
+  label,
+  optional,
+  error,
+  className,
+  ...props
+}: TextareaProps) {
   return (
     <div className={twMerge("flex w-full flex-col gap-1", className)}>
       <label htmlFor={id} className="text-[14px] font-medium text-ink">
         {label}
-        {optional && <span className="font-normal text-ink-faint"> — opcional</span>}
+        {optional && (
+          <span className="font-normal text-ink-faint"> — opcional</span>
+        )}
       </label>
 
       <textarea

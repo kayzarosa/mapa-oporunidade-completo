@@ -1,6 +1,6 @@
-import { statusBadges, type BadgeVariant } from "@/lib/icons";
+import { type BadgeVariant, statusBadges } from "@/lib/icons";
 import type { ComponentProps } from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { type VariantProps, tv } from "tailwind-variants";
 
 export const badgeVariants = tv({
   base: "inline-flex w-fit items-center gap-1.5 rounded-badge text-xs",

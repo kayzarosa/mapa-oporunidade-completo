@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-import { twMerge } from "tailwind-merge";
 import {
   Select,
   SelectContent,
@@ -7,6 +5,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { LucideIcon } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 type SelectFieldOption<T extends string> = {
   value: T;

@@ -1,5 +1,5 @@
-import { Outlet } from "react-router";
 import Logo from "@/assets/logo.svg";
+import { Outlet } from "react-router";
 
 export function AppLayout() {
   return (
