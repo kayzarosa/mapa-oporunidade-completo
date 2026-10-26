@@ -1,17 +1,26 @@
 import { CardProcess } from "@/components/card-process";
 import { ConfirmModal } from "@/components/confirm-modal";
 import { HomeSkeleton } from "@/components/home-skeleton";
+import { Pagination } from "@/components/pagination";
+import { emptyFilters, ProcessFilters, type Filters } from "@/components/process-filters";
 import { ProcessForm } from "@/components/process-form";
 import { Button } from "@/components/ui/button";
 import { useDeleteProcess } from "@/hooks/process/use-delete-process";
 import { useProcesses } from "@/hooks/process/use-processes";
 import type { Process, ProcessListItem } from "@/types/process";
 import { Briefcase, Plus } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 
 export function Home() {
-  const { data, isLoading } = useProcesses();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState(emptyFilters);
+  const { data, isLoading } = useProcesses({
+    page,
+    company: search,
+    ...filters,
+  });
   const deleteProcess = useDeleteProcess();
   const navigate = useNavigate();
 
@@ -22,8 +31,22 @@ export function Home() {
   const [processDelete, setProcessDelete] = useState<Process | null>(null);
   const [selected, setSelected] = useState<Process | null>(null);
 
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+    setPage(1);
+  }, []);
+
+  function handleFiltersChange(next: Filters) {
+    setFilters(next);
+    setPage(1);
+  }
+
   function handleCloseModal() {
     setOpen(false);
+  }
+
+  function handleChangePage(page: number) {
+    setPage(page);
   }
 
   function handleCloseModalConfirm() {
@@ -73,6 +96,12 @@ export function Home() {
           </Button>
         </div>
 
+        <ProcessFilters
+          search={search}
+          filters={filters}
+          onSearchChange={handleSearchChange}
+          onFiltersChange={handleFiltersChange}
+        />
         <div
           className={`mt-5 flex w-full items-center justify-center p-6
                   rounded-card border border-line bg-surface`}
@@ -104,16 +133,27 @@ export function Home() {
               )}
 
               {processes.length > 0 && (
-                <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
-                  {processes.map((process) => (
-                    <CardProcess
-                      key={process.id}
-                      process={process}
-                      onEdit={handleEdit}
-                      onDelete={handleOpenModalConfirm}
-                      onShow={handleShow}
+                <div className="flex flex-col w-full">
+                  <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
+                    {processes.map((process) => (
+                      <CardProcess
+                        key={process.id}
+                        process={process}
+                        onEdit={handleEdit}
+                        onDelete={handleOpenModalConfirm}
+                        onShow={handleShow}
+                      />
+                    ))}
+                  </div>
+                  {data && (
+                    <Pagination
+                      onChange={handleChangePage}
+                      page={data.page}
+                      totalPages={data.totalPages}
+                      total={data.total}
+                      perPage={data.perPage}
                     />
-                  ))}
+                  )}
                 </div>
               )}
             </>

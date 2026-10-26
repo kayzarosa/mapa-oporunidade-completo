@@ -18,11 +18,31 @@ export const buttonVariants = tv({
       icon: `rounded-control text-ink-muted p-1.5
               hover:bg-accent-soft hover:text-accent
               disabled:opacity-50`,
+      page: `h-9 min-w-0 px-2 text-sm rounded-control`,
+    },
+    active: {
+      true: "",
+      false: "",
     },
   },
 
+  compoundVariants: [
+    {
+      variant: "page",
+      active: false,
+      class: `text-ink-muted hover:bg-surface-3 hover:text-ink 
+            disabled:opacity-50`,
+    },
+    {
+      variant: "page",
+      active: true,
+      class: `bg-accent text-surface cursor-default`,
+    },
+  ],
+
   defaultVariants: {
     variant: "primary",
+    active: false,
   },
 });
 
@@ -38,12 +58,16 @@ export function Button({
   children,
   className,
   variant,
+  active,
   ...props
 }: ButtonProps) {
   const Component = asChild ? Slot : "button";
 
   return (
-    <Component className={buttonVariants({ variant, className })} {...props}>
+    <Component
+      className={buttonVariants({ variant, active, className })}
+      {...props}
+    >
       {asChild ? (
         children
       ) : (
