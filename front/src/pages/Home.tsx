@@ -134,7 +134,7 @@ export function Home() {
 
               {processes.length > 0 && (
                 <div className="flex flex-col w-full">
-                  <div className="flex flex-col w-full gap-2 max-h-[72dvh] overflow-y-auto">
+                  <div className="flex flex-col w-full gap-2 max-h-[62dvh] overflow-y-auto">
                     {processes.map((process) => (
                       <CardProcess
                         key={process.id}
