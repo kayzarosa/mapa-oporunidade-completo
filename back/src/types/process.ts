@@ -45,6 +45,9 @@ export type UpdateProcessInput = {
 export type ProcessFilters = {
   company?: string;
   expectation?: string;
+  status?: string;
+  type?: string;
+  expiring?: boolean;
   page: number;
   perPage: number;
 };

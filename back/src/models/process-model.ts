@@ -18,12 +18,34 @@ export class PrismaProcessModel implements ProcessRepository {
   async findAll({
     company,
     expectation,
+    status,
+    type,
+    expiring,
     page,
     perPage,
   }: ProcessFilters): Promise<PaginatedProcesses> {
+    const now = new Date();
+    const limit = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+
+    const stageWhere: Prisma.StageWhereInput = {
+      ...(status ? { status } : {}),
+      ...(type ? { type } : {}),
+      ...(expiring
+        ? {
+            OR: [
+              { deadline: { gte: now, lte: limit } },
+              { respondBy: { gte: now, lte: limit } },
+            ],
+          }
+        : {}),
+    };
+
     const where: Prisma.ProcessWhereInput = {
       ...(company ? { company: { contains: company } } : {}),
       ...(expectation ? { expectation } : {}),
+      ...(Object.keys(stageWhere).length
+        ? { stages: { some: stageWhere } }
+        : {}),
     };
 
     const [processes, total] = await prisma.$transaction([
